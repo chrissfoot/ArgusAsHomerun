@@ -38,12 +38,10 @@ router.get('/lineup_status.json', function (req, res) {
 });
 
 
-router.get('/lineup.json', function (req, res) {
-    // Get lineup from argus
-
+router.get('/lineup.json', function (req, res) {  
     var baseUrl = req.protocol + '://' + req.get('host');
     var lineUp = [];
-    var url = 'http://localhost:49943/ArgusTV/Guide/Channels/0'    
+    var url = 'http://localhost:49943/ArgusTV/Scheduler/Channels/0'    
 
     request.get({
         url: url,
@@ -56,7 +54,7 @@ router.get('/lineup.json', function (req, res) {
 				lineUp.push({
 					GuideNumber: value.GuideChannelId,
 					GuideName: value.Name,
-					URL: baseUrl + '/auto/' + value.GuideChannelId
+					URL: baseUrl + '/auto/' + value.ChannelId
 				});				
 			});
 			res.json(lineUp);
@@ -74,6 +72,27 @@ router.get('/lineup.json', function (req, res) {
 
 router.get('/auto/:channel', function (req, res) {
     // Return ts stream from argus
+    // Start a stream going and get the url
+    var url = 'http://localhost:49943/ArgusTV/Control/TuneLiveStream'    
+
+    request({
+        url: url,
+        method: "POST",
+        json: true,
+        headers: {
+            "content-type": "application/json",
+        },
+        body: JSON.stringify({ Channel: { ChannelId: req.params['channel'] } })
+    }, (error, response, data) => {
+        if (!error && response.statusCode === 200) {
+            var stream = data.LiveStream.RtspUrl;
+            request(stream).pipe(res);
+        } else {
+            res.send('Unable to get stream: ', error);
+            console.log("Got an error:", error, ", status code: ", response.statusCode);
+            console.log("Tried to get:", url);
+        }
+    });
 });
 
 
