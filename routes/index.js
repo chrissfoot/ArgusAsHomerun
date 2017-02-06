@@ -46,12 +46,19 @@ router.get('/lineup.json', function (req, res) {
     var url = 'http://localhost:49943/ArgusTV/Guide/Channels/0'
     var argusChannels = [];
 
-    request(url, (error, response, body) => {
+    request.get({
+        url: url,
+        json: true,
+        headers: {
+            'Accept': 'application/json' 
+        }
+    }, (error, response, data) => {
         if (!error && response.statusCode === 200) {
-            argusChannels = JSON.parse(body);
-            console.log("Got response", body);
+            argusChannels = data;
+            console.log("Got response", data);
         } else {
             console.log("Got an error:", error, ", status code: ", response.statusCode);
+            console.log("Tried to get:", url);
         }
     });
 
