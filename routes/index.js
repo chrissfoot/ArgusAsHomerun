@@ -63,6 +63,7 @@ router.get('/lineup.json', function (req, res) {
     });
 
     argusChannels.forEach(function (value) {
+        console.log('Adding channel', value);
         lineUp.push({
             GuideNumber: value.GuideChannelId,
             GuideName: value.Name,
