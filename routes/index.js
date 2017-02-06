@@ -84,7 +84,8 @@ router.get('/auto/v:channel', function (req, res) {
         method: "POST",
         json: true,
         headers: {
-            "content-type": "application/json",
+            "Content-Type": "application/json",
+            'Accept': 'application/json'
         },
         body: JSON.stringify({ Channel: { ChannelId: req.params['channel'] } })
     }, (error, response, data) => {
