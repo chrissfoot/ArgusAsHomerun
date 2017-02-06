@@ -77,8 +77,7 @@ router.post('/lineup.post', function (req, res) {
 router.get('/auto/v:channel', function (req, res) {
     // Return ts stream from argus
     // Start a stream going and get the url
-    var url = 'http://localhost:49943/ArgusTV/Control/TuneLiveStream'    
-    var body = JSON.stringify({ Channel: { ChannelId: req.params['channel'] } }); 
+    var url = 'http://localhost:49943/ArgusTV/Control/TuneLiveStream'        
 
     request.post({
         url: url,               
@@ -86,7 +85,7 @@ router.get('/auto/v:channel', function (req, res) {
             "Content-Type": "application/json",
             'Accept': 'application/json'
         },
-        json: body
+        json: { Channel: { ChannelId: req.params['channel'] } }
     }, (error, response, data) => {
         if (!error && response.statusCode === 200) {
             var stream = data.LiveStream.RtspUrl;
@@ -94,8 +93,7 @@ router.get('/auto/v:channel', function (req, res) {
         } else {
             res.status(500).send('Unable to get stream: ' + error);
             console.log("Got an error:", response.body, ", status code: ", response.statusCode);
-            console.log("Tried to get:", url);
-            console.log("Body:", body);
+            console.log("Tried to get:", url);            
         }
     });
 });
