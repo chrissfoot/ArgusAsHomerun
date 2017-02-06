@@ -68,7 +68,7 @@ router.get('/lineup.json', function (req, res) {
 
 });
 
-router.get('/lineup.post', function (req, res) {
+router.post('/lineup.post', function (req, res) {
     var baseUrl = req.protocol + '://' + req.get('host');
     var lineUp = [];
     var url = 'http://localhost:49943/ArgusTV/Scheduler/Channels/0'
