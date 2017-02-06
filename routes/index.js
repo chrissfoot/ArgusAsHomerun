@@ -80,15 +80,13 @@ router.get('/auto/v:channel', function (req, res) {
     var url = 'http://localhost:49943/ArgusTV/Control/TuneLiveStream'    
     var body = JSON.stringify({ Channel: { ChannelId: req.params['channel'] } }); 
 
-    request({
-        url: url,
-        method: "POST",
-        json: true,
+    request.post({
+        url: url,               
         headers: {
             "Content-Type": "application/json",
             'Accept': 'application/json'
         },
-        body: body
+        json: body
     }, (error, response, data) => {
         if (!error && response.statusCode === 200) {
             var stream = data.LiveStream.RtspUrl;
