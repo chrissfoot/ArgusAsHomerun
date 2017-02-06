@@ -59,7 +59,7 @@ router.get('/lineup.json', function (req, res) {
 			});
 			res.json(lineUp);
         } else {
-			res.send('Unable to get channels: ', error);
+            res.status(500).send('Unable to get channels: ' + error);
             console.log("Got an error:", error, ", status code: ", response.statusCode);
             console.log("Tried to get:", url);
         }
@@ -92,7 +92,7 @@ router.get('/auto/v:channel', function (req, res) {
             var stream = data.LiveStream.RtspUrl;
             request(stream).pipe(res);
         } else {
-            res.send('Unable to get stream: ', error);
+            res.status(500).send('Unable to get stream: ' + error);
             console.log("Got an error:", error, ", status code: ", response.statusCode);
             console.log("Tried to get:", url);
         }
