@@ -43,36 +43,32 @@ router.get('/lineup.json', function (req, res) {
 
     var baseUrl = req.protocol + '://' + req.get('host');
     var lineUp = [];
-    var url = 'http://localhost:49943/ArgusTV/Guide/Channels/0'
-    var argusChannels = [];
+    var url = 'http://localhost:49943/ArgusTV/Guide/Channels/0'    
 
     request.get({
         url: url,
         json: true,
-        headers: {
-            'Accept': 'application/json' 
-        }
+        headers: {'Accept': 'application/json' }
     }, (error, response, data) => {
-        if (!error && response.statusCode === 200) {
-            argusChannels = data;
-            console.log("Got response", data);
+        if (!error && response.statusCode === 200) {            
+			data.forEach(function (value) {
+				
+				lineUp.push({
+					GuideNumber: value.GuideChannelId,
+					GuideName: value.Name,
+					URL: baseUrl + '/auto/' + value.GuideChannelId
+				});				
+			});
+			res.json(lineUp);
         } else {
+			res.send('Unable to get channels: ', error);
             console.log("Got an error:", error, ", status code: ", response.statusCode);
             console.log("Tried to get:", url);
         }
     });
 
-    argusChannels.forEach(function (value) {
-        console.log('Adding channel', value);
-        lineUp.push({
-            GuideNumber: value.GuideChannelId,
-            GuideName: value.Name,
-            URL: baseUrl + '/auto/' + value.GuideChannelId
-        });
-    });
-
     
-    res.json(lineUp);
+    
 
 });
 
