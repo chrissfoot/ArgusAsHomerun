@@ -97,6 +97,7 @@ router.get('/auto/v:channel', function (req, res) {
             res.status(500).send('Unable to get stream: ' + error);
             console.log("Got an error:", response.body, ", status code: ", response.statusCode);
             console.log("Tried to get:", url);
+            console.log("Body:", body);
         }
     });
 });
