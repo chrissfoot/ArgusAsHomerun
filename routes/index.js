@@ -1,5 +1,6 @@
 ﻿var express = require('express');
 var util = require('util');
+var request = require('request');
 var router = express.Router();
 
 /* GET home page. */
@@ -42,13 +43,27 @@ router.get('/lineup.json', function (req, res) {
 
     var baseUrl = req.protocol + '://' + req.get('host');
     var lineUp = [];
+    var url = 'http://localhost:49943/ArgusTV/Guide/Channels/0'
+    var argusChannels = [];
 
-    lineUp.push({
-        GuideNumber: 1,
-        GuideName: 'Chris\'s Test Channel',
-        URL : baseUrl + '/auto/1' 
-
+    request(url, (error, response, body) => {
+        if (!error && response.statusCode === 200) {
+            argusChannels = JSON.parse(body);
+            console.log("Got response", body);
+        } else {
+            console.log("Got an error:", error, ", status code: ", response.statusCode);
+        }
     });
+
+    argusChannels.forEach(function (value) {
+        lineUp.push({
+            GuideNumber: value.GuideChannelId,
+            GuideName: value.Name,
+            URL: baseUrl + '/auto/' + value.GuideChannelId
+        });
+    });
+
+    
     res.json(lineUp);
 
 });
