@@ -28,6 +28,12 @@ router.get('/discover.json', function (req, res) {
 
 router.get('/lineup_status.json', function (req, res) {
     // Get lineup from argus
+    res.json({
+        ScanInProgress: 0,
+        ScanPossible : 1,
+        Source: 'Antenna',
+        SourceList : ['Antenna']
+    });
 });
 
 
