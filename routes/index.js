@@ -54,7 +54,7 @@ router.get('/lineup.json', function (req, res) {
 				lineUp.push({
 					GuideNumber: value.Id.toString(),
 					GuideName: value.DisplayName,
-					URL: baseUrl + '/auto/' + value.ChannelId
+					URL: baseUrl + '/auto/v' + value.ChannelId
 				});				
 			});
 			res.json(lineUp);
@@ -70,7 +70,7 @@ router.get('/lineup.json', function (req, res) {
 
 });
 
-router.get('/auto/:channel', function (req, res) {
+router.get('/auto/v:channel', function (req, res) {
     // Return ts stream from argus
     // Start a stream going and get the url
     var url = 'http://localhost:49943/ArgusTV/Control/TuneLiveStream'    
