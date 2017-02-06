@@ -18,5 +18,8 @@
     "debug": "~2.0.0",
     "jade": "~1.6.0",
     "stylus": "0.42.3"
+  },
+  "devDependencies": {
+    "request": "^2.79.0"
   }
 }
