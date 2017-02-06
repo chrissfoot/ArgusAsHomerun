@@ -52,7 +52,7 @@ router.get('/lineup.json', function (req, res) {
 			data.forEach(function (value) {
 				
 				lineUp.push({
-					GuideNumber: value.GuideChannelId,
+					GuideNumber: value.Id,
 					GuideName: value.DisplayName,
 					URL: baseUrl + '/auto/' + value.ChannelId
 				});				
